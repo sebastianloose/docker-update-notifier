@@ -1,3 +1,32 @@
+<script lang="ts">
+    const fields = { email: "", organization: "", repository: "" };
+    const errors = { email: "", organization: "", repository: "" };
+
+    const onSubmit = () => {
+        const emailRegex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+
+        if (fields.email.trim().length == 0) {
+            errors.email = "E-Mail is required";
+        } else if (!emailRegex.test(fields.email)) {
+            errors.email = "E-Mail is malformed";
+        } else {
+            errors.email = "";
+        }
+
+        if (fields.organization.trim().length == 0) {
+            errors.organization = "Owner / Organization is required";
+        } else {
+            errors.organization = "";
+        }
+
+        if (fields.repository.trim().length == 0) {
+            errors.repository = "Repository is required";
+        } else {
+            errors.repository = "";
+        }
+    };
+</script>
+
 <div class="w-full h-8">
     <div
         class="float-right border border-blue-500 rounded-lg text-blue-500 hover:text-white px-5 py-1.5 cursor-pointer hover:bg-blue-500 transition"
@@ -20,29 +49,45 @@
             id="username"
             type="email"
             placeholder="E-Mail"
+            class:border-red-500={errors.email}
+            bind:value={fields.email}
         />
+        {#if errors.email}
+            <p class="text-red-500 text-xs mt-1.5">{errors.email}</p>
+        {/if}
     </div>
     <div class="mb-4">
-        <label class="block text-gray-400 text-sm font-semibold mb-2" for="organization"> Owner / Organization </label>
+        <label class="block text-gray-400 text-sm font-semibold mb-2" for="organization">Owner / Organization</label>
         <input
             class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="organization"
             type="text"
             placeholder="pihole"
+            class:border-red-500={errors.organization}
+            bind:value={fields.organization}
         />
+        {#if errors.organization}
+            <p class="text-red-500 text-xs mt-1.5">{errors.organization}</p>
+        {/if}
     </div>
     <div class="mb-6">
-        <label class="block text-gray-400 text-sm font-semibold mb-2" for="repository"> Repository </label>
+        <label class="block text-gray-400 text-sm font-semibold mb-2" for="repository">Repository</label>
         <input
             class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="repository"
             type="text"
             placeholder="pihole"
+            class:border-red-500={errors.repository}
+            bind:value={fields.repository}
         />
+        {#if errors.repository}
+            <p class="text-red-500 text-xs mt-1.5">{errors.repository}</p>
+        {/if}
     </div>
     <button
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full transition"
         type="button"
+        on:click={onSubmit}
     >
         Subscribe
     </button>
