@@ -1,0 +1,49 @@
+<div class="w-full h-8">
+    <div
+        class="float-right border border-blue-500 rounded-lg text-blue-500 hover:text-white px-5 py-1.5 cursor-pointer hover:bg-blue-500 transition"
+    >
+        Login
+    </div>
+</div>
+<div class="max-w-3xl m-auto mt-10">
+    <h1 class="text-5xl tracking-wide font-bold text-gray-800">
+        Docker Update Notifier<span class="text-blue-500">.</span>
+    </h1>
+    <p class="my-5 text-gray-400">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum explicabo nobis voluptatem. Quo vero hic officiis
+        ut, ratione, sunt animi ad dolores labore consequatur totam ipsum tenetur!
+    </p>
+    <div class="my-4">
+        <label class="block text-gray-400 text-sm font-semibold mb-2" for="username">E-Mail</label>
+        <input
+            class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="username"
+            type="email"
+            placeholder="E-Mail"
+        />
+    </div>
+    <div class="mb-4">
+        <label class="block text-gray-400 text-sm font-semibold mb-2" for="organization"> Owner / Organization </label>
+        <input
+            class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="organization"
+            type="text"
+            placeholder="pihole"
+        />
+    </div>
+    <div class="mb-6">
+        <label class="block text-gray-400 text-sm font-semibold mb-2" for="repository"> Repository </label>
+        <input
+            class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="repository"
+            type="text"
+            placeholder="pihole"
+        />
+    </div>
+    <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full transition"
+        type="button"
+    >
+        Subscribe
+    </button>
+</div>
