@@ -20,4 +20,12 @@ const subscribe = async ({
   }
 };
 
-export { subscribe };
+const verifyEmail = async (uuid) => {
+  try {
+    await axios.post(`${baseUrl}/verifyEmail`, {
+      uuid,
+    });
+  } catch (error) {}
+};
+
+export { subscribe, verifyEmail };
