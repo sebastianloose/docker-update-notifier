@@ -55,14 +55,15 @@
         <ModalDialog
             onClose={() => (showModalDialog = false)}
             title="Success"
-            content="We have sent you a registration link by email"
+            content="We have sent you a login link by email"
         />
     {/if}
     <div class="w-full h-8">
         <div
             class="float-right border border-blue-500 rounded-lg text-blue-500 hover:text-white px-5 py-1.5 cursor-pointer hover:bg-blue-500 transition"
+            on:click={() => goto("/docker-update-notifier/")}
         >
-            Login
+            Sign Up
         </div>
     </div>
     <div class="max-w-3xl m-auto mt-10">
@@ -99,7 +100,7 @@
                     <LoadingSpinner />
                 </div>
             {/if}
-            Subscribe
+            Login
         </button>
     </div>
 </div>

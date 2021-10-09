@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
     import { subscribe } from "../api/api";
     import LoadingSpinner from "../components/LoadingSpinner.svelte";
     import ModalDialog from "../components/ModalDialog.svelte";
@@ -66,6 +67,7 @@
     <div class="w-full h-8">
         <div
             class="float-right border border-blue-500 rounded-lg text-blue-500 hover:text-white px-5 py-1.5 cursor-pointer hover:bg-blue-500 transition"
+            on:click={() => goto("/docker-update-notifier/login")}
         >
             Login
         </div>
