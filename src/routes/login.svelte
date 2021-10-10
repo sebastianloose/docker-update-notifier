@@ -19,7 +19,7 @@
         if (!token) {
             return;
         }
-        document.cookie = `token=${token}`;
+        document.cookie = `token=${token};samesite=strict;secure`;
         goto("/docker-update-notifier/home");
     };
 
