@@ -53,7 +53,7 @@
     };
 
     const logOut = () => {
-        document.cookie = "token=;samesite=strict;secure";
+        document.cookie = "token=;samesite=lax;secure;path=/docker-update-notifier/";
         goto("/docker-update-notifier/login");
     };
 </script>
