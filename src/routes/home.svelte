@@ -1,26 +1,30 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
-    import { getSubscriptions } from "../api/api";
-
     import { onMount } from "svelte";
+    import { goto } from "$app/navigation";
     import type { Subscription } from "src/types/subscription";
+    import type { SubscriptionUpdateState } from "src/types/subscriptionUpdateState";
+    import { getSubscriptions, setSubscriptionState, deleteSubscription } from "../api/api";
 
     let token = "";
     let subscriptions: Subscription[] = [];
 
-    onMount(async () => {
+    onMount(() => {
         token = getCookie("token");
         if (!token) {
             goto("/docker-update-notifier/login");
             return;
         }
+        fetchSubscriptions();
+    });
+
+    const fetchSubscriptions = async () => {
         const res = await getSubscriptions(token);
         if (res.status == "error") {
             goto("/docker-update-notifier/login");
             return;
         }
         subscriptions = res.data as Subscription[];
-    });
+    };
 
     const getCookie = (cname: string) => {
         const name = cname + "=";
@@ -36,6 +40,16 @@
             }
         }
         return "";
+    };
+
+    const updateRepositoryState = async (state: SubscriptionUpdateState) => {
+        await setSubscriptionState(state, token);
+        fetchSubscriptions();
+    };
+
+    const deleteRepository = async (organization: string, repository: string) => {
+        await deleteSubscription(organization, repository, token);
+        fetchSubscriptions();
     };
 
     const logOut = () => {
@@ -97,12 +111,24 @@
                                             {#if active}
                                                 <span
                                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                                                    on:click={() =>
+                                                        updateRepositoryState({
+                                                            organization,
+                                                            repository,
+                                                            active: false,
+                                                        })}
                                                 >
                                                     Active
                                                 </span>
                                             {:else}
                                                 <span
                                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-700"
+                                                    on:click={() =>
+                                                        updateRepositoryState({
+                                                            organization,
+                                                            repository,
+                                                            active: true,
+                                                        })}
                                                 >
                                                     Inactive
                                                 </span>
@@ -112,6 +138,7 @@
                                             <p
                                                 href="#"
                                                 class="text-red-500 hover:text-red-300 transition cursor-pointer"
+                                                on:click={() => deleteRepository(organization, repository)}
                                             >
                                                 Delete
                                             </p>

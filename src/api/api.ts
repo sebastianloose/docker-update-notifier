@@ -1,4 +1,5 @@
 import axios from "axios";
+import type { SubscriptionUpdateState } from "src/types/subscriptionUpdateState";
 import type { Subscription } from "src/types/subscription";
 import type { SubscribeRequest } from "../types/subscribeRequest";
 
@@ -41,4 +42,22 @@ const getSubscriptions = async (token: string): Promise<ApiResponse> => {
     }
 };
 
-export { subscribe, sendLoginToken, getSubscriptions };
+const setSubscriptionState = async (state: SubscriptionUpdateState, token: string): Promise<ApiResponse> => {
+    try {
+        const res = await axios.post(`${baseUrl}/updateSubscriptionState`, { state, token });
+        return { status: "success", data: res?.data as unknown as string };
+    } catch (error) {
+        return { status: "error", data: error?.response?.data };
+    }
+};
+
+const deleteSubscription = async (organization: string, repository: string, token: string): Promise<ApiResponse> => {
+    try {
+        const res = await axios.post(`${baseUrl}/deleteSubscription`, { organization, repository, token });
+        return { status: "success", data: res?.data as unknown as string };
+    } catch (error) {
+        return { status: "error", data: error?.response?.data };
+    }
+};
+
+export { subscribe, sendLoginToken, getSubscriptions, setSubscriptionState, deleteSubscription };
