@@ -105,7 +105,12 @@
                                 {#each subscriptions as { organization, repository, active }}
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-500">{organization}/{repository}</div>
+                                            <a
+                                                class="text-sm text-gray-500"
+                                                href={`https://hub.docker.com/r/${organization}/${repository}`}
+                                                target="blank"
+                                                rel="noreferrer">{organization}/{repository}</a
+                                            >
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             {#if active}
