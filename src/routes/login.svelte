@@ -51,7 +51,7 @@
 </script>
 
 <div>
-    {#if showModalDialog}
+    {#if !showModalDialog}
         <ModalDialog
             onClose={() => (showModalDialog = false)}
             title="Success"

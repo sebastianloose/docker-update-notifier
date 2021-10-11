@@ -5,10 +5,10 @@
 </script>
 
 <div
-    class="flex fixed text-gray-500 items-center justify-center overflow-auto z-50 bg-black bg-opacity-40 left-0 right-0 top-0 bottom-0"
+    class="flex fixed text-gray-500 items-center justify-center overflow-auto z-50 bg-black bg-opacity-40 left-0 right-0 top-0 bottom-0 p-5"
     on:click={onClose}
 >
-    <div class="p-5 border shadow-lg rounded-md bg-white">
+    <div class="p-5 border shadow-lg rounded-md bg-white max-w-full w-96">
         <div class="mt-3 text-center">
             <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100">
                 <svg
