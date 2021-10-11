@@ -1,13 +1,19 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
+    import { onMount } from "svelte";
     import { subscribe } from "../api/api";
     import LoadingSpinner from "../components/LoadingSpinner.svelte";
     import ModalDialog from "../components/ModalDialog.svelte";
 
     let isLoading = false;
     let showModalDialog = false;
+    let showVerifiedModalDialog = false;
     let fields = { email: "", organization: "", repository: "" };
     let errors = { email: "", organization: "", repository: "" };
+
+    onMount(() => {
+        showVerifiedModalDialog = new URLSearchParams(window.location.search).get("verified") == "1";
+    });
 
     const onSubmit = async () => {
         const emailRegex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
@@ -57,6 +63,13 @@
 </script>
 
 <div>
+    {#if showVerifiedModalDialog}
+        <ModalDialog
+            onClose={() => (showVerifiedModalDialog = false)}
+            title="Verified"
+            content="You will now receive an email when there is an update for your containers."
+        />
+    {/if}
     {#if showModalDialog}
         <ModalDialog
             onClose={() => (showModalDialog = false)}
