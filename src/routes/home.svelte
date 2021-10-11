@@ -1,12 +1,13 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { goto } from "$app/navigation";
-    import type { Subscription } from "src/types/subscription";
-    import type { SubscriptionUpdateState } from "src/types/subscriptionUpdateState";
     import { getSubscriptions, setSubscriptionState, deleteSubscription } from "../api/api";
+    import AddSubscriptionModalDialog from "../components/AddSubscriptionModalDialog.svelte";
+    import type { Subscription } from "src/types/subscriptionType";
 
     let token = "";
     let subscriptions: Subscription[] = [];
+    let showAddSubscriptionModalDialog = false;
 
     onMount(() => {
         token = getCookie("token");
@@ -42,7 +43,7 @@
         return "";
     };
 
-    const updateRepositoryState = async (state: SubscriptionUpdateState) => {
+    const updateRepositoryState = async (state: Subscription) => {
         await setSubscriptionState(state, token);
         fetchSubscriptions();
     };
@@ -59,12 +60,27 @@
 </script>
 
 <div>
+    {#if showAddSubscriptionModalDialog}
+        <AddSubscriptionModalDialog
+            {token}
+            onClose={() => {
+                showAddSubscriptionModalDialog = false;
+                fetchSubscriptions();
+            }}
+        />
+    {/if}
     <div class="w-full h-8">
         <div
             class="float-right border border-blue-500 rounded-lg text-blue-500 hover:text-white px-5 py-1.5 cursor-pointer hover:bg-blue-500 transition"
             on:click={logOut}
         >
             Log Out
+        </div>
+        <div
+            class="float-right border border-blue-500 rounded-lg text-blue-500 hover:text-white px-5 py-1.5 cursor-pointer hover:bg-blue-500 transition mr-2"
+            on:click={() => (showAddSubscriptionModalDialog = true)}
+        >
+            Add Subscription
         </div>
     </div>
     <div class="max-w-3xl m-auto mt-10">
@@ -77,7 +93,7 @@
         </p>
 
         <div class="flex flex-col">
-            <div class="-my-2 sm:-mx-6 lg:-mx-8">
+            <div class="sm:-mx-6 lg:-mx-8">
                 <div class="align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="shadow overflow-hidden border-b border-gray-200 rounded-lg">
                         <table class="min-w-full divide-y divide-gray-200">

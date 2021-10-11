@@ -1,7 +1,7 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
-    import { subscribe } from "../api/api";
+    import { subscribeByEmail } from "../api/api";
     import LoadingSpinner from "../components/LoadingSpinner.svelte";
     import ModalDialog from "../components/ModalDialog.svelte";
 
@@ -44,11 +44,11 @@
 
         isLoading = true;
 
-        const result = await subscribe({
-            email: fields.email.trim(),
-            organization: fields.organization.trim(),
-            repository: fields.repository.trim(),
-        });
+        const result = await subscribeByEmail(
+            fields.organization.trim(),
+            fields.repository.trim(),
+            fields.email.trim(),
+        );
 
         if (result.data == "Repository not found") {
             errors.repository = "Repository could not be found";
