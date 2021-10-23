@@ -6,8 +6,9 @@
     import ModalDialog from "../components/ModalDialog.svelte";
 
     let isLoading = false;
-    let showModalDialog = false;
+    let showSuccessModalDialog = false;
     let showVerifiedModalDialog = false;
+    let showUserExistsDialog = false;
     let fields = { email: "", organization: "", repository: "" };
     let errors = { email: "", organization: "", repository: "" };
 
@@ -50,15 +51,20 @@
             fields.email.trim(),
         );
 
-        if (result.data == "Repository not found") {
-            errors.repository = "Repository could not be found";
-            isLoading = false;
-            return;
+        isLoading = false;
+
+        if (result.status == "success") {
+            fields = { email: "", organization: "", repository: "" };
+            showSuccessModalDialog = true;
         }
 
-        fields = { email: "", organization: "", repository: "" };
-        showModalDialog = true;
-        isLoading = false;
+        if (result.data == "Repository not found") {
+            errors.repository = "Repository could not be found";
+        }
+
+        if (result.data == "User does already exist") {
+            showUserExistsDialog = true;
+        }
     };
 </script>
 
@@ -66,15 +72,25 @@
     {#if showVerifiedModalDialog}
         <ModalDialog
             onClose={() => (showVerifiedModalDialog = false)}
+            icon="success"
             title="Verified"
             content="You will now receive an email when there is an update for your containers."
         />
     {/if}
-    {#if showModalDialog}
+    {#if showSuccessModalDialog}
         <ModalDialog
-            onClose={() => (showModalDialog = false)}
+            onClose={() => (showSuccessModalDialog = false)}
+            icon="success"
             title="Subscribed!"
             content="Please verify your Email to receive notifications"
+        />
+    {/if}
+    {#if showUserExistsDialog}
+        <ModalDialog
+            onClose={() => (showUserExistsDialog = false)}
+            icon="error"
+            title="The user does already exist"
+            content="The user does already exist. Please log in to subscribe to new containers."
         />
     {/if}
     <div class="w-full h-8">
@@ -147,7 +163,7 @@
                     <LoadingSpinner />
                 </div>
             {/if}
-            Subscribe
+            Sign Up
         </button>
     </div>
 </div>
