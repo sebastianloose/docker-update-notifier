@@ -131,7 +131,7 @@
                                         <td class="px-4 sm:px-6 py-4 whitespace-nowrap">
                                             {#if active}
                                                 <span
-                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 cursor-pointer"
                                                     on:click={() =>
                                                         updateRepositoryState({
                                                             organization,
@@ -143,7 +143,7 @@
                                                 </span>
                                             {:else}
                                                 <span
-                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-700"
+                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-700 cursor-pointer"
                                                     on:click={() =>
                                                         updateRepositoryState({
                                                             organization,
