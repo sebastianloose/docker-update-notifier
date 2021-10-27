@@ -12,7 +12,7 @@
     onMount(() => {
         token = getCookie("token");
         if (!token) {
-            goto("/docker-update-notifier/login");
+            logOut();
             return;
         }
         fetchSubscriptions();
@@ -21,7 +21,7 @@
     const fetchSubscriptions = async () => {
         const res = await getSubscriptions(token);
         if (res.status == "error") {
-            goto("/docker-update-notifier/login");
+            logOut();
             return;
         }
         subscriptions = res.data as Subscription[];
