@@ -2,7 +2,6 @@ import axios from "axios";
 import type { Subscription } from "src/types/subscriptionType";
 
 const baseUrl = "https://api.docker-notifier.sebastianloose.de";
-// const baseUrl = "http://localhost:1640";
 
 interface ApiResponse {
     status: "success" | "error";

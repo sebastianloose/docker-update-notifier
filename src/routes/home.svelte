@@ -88,8 +88,7 @@
             Docker Update Notifier<span class="text-blue-500">.</span>
         </h1>
         <p class="my-5 text-gray-400">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum explicabo nobis voluptatem. Quo vero hic
-            officiis ut, ratione, sunt animi ad dolores labore consequatur totam ipsum tenetur!
+            A small tool that notifies you via email when there is an update for your favorite Docker Hub image.
         </p>
 
         <div class="flex flex-col">
