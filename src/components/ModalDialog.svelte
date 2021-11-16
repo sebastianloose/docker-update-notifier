@@ -1,7 +1,7 @@
 <script lang="ts">
     export let onClose: VoidFunction;
-    export let title: string;
-    export let content: string;
+    export let title: string = "";
+    export let content: string = "";
     export let icon: "success" | "error";
 </script>
 
@@ -35,8 +35,12 @@
                     >
                 {/if}
             </div>
-            <h3 class="text-lg font-medium text-gray-800 mt-2">{title}</h3>
-            <p class="text-sm text-gray-500">{content}</p>
+            {#if title != ""}
+                <h3 class="text-lg font-medium text-gray-800 mt-2">{title}</h3>
+            {/if}
+            {#if content != ""}
+                <p class="text-sm text-gray-500">{content}</p>
+            {/if}
             <button
                 class="bg-blue-500 animate hover:bg-blue-700 text-white font-medium mt-4 py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full transition flex items-center justify-center"
                 on:click={onClose}

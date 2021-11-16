@@ -55,8 +55,7 @@
         <ModalDialog
             onClose={() => (showModalDialog = false)}
             icon="success"
-            title="Success"
-            content="We have sent you a login link by email"
+            title="We have sent you a login link by email"
         />
     {/if}
     <div class="w-full h-8">
