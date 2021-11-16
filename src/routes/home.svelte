@@ -87,7 +87,7 @@
         <h1 class="text-5xl tracking-wide font-bold text-gray-800">
             Docker Update Notifier<span class="text-blue-500">.</span>
         </h1>
-        <p class="my-5 text-gray-400">
+        <p class="mb-5 mt-2 text-gray-400">
             A small tool that notifies you via email when there is an update for your favorite Docker Hub image.
         </p>
 
