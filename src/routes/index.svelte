@@ -114,7 +114,7 @@
                 class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="username"
                 type="email"
-                placeholder="E-Mail"
+                placeholder="example@domain.com"
                 class:border-red-500={errors.email}
                 bind:value={fields.email}
             />
