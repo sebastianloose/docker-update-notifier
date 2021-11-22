@@ -136,7 +136,7 @@
                 label="Repository"
                 bind:onChange={fields.repository}
                 error={errors.repository}
-                placeholder="pihole"
+                placeholder={fields.officalImage ? "node" : "pihole"}
             />
         </div>
         <div class="mb-4">
