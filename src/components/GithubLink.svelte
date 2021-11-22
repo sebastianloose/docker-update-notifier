@@ -1,4 +1,4 @@
-<div class="w-9 h-9 float-right ml-3">
+<div class="w-9 h-9 float-right ml-2">
     <a href="https://github.com/sebastianloose/docker-update-notifier" target="_blank" rel="noreferrer">
         <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
             ><title>GitHub</title><path
