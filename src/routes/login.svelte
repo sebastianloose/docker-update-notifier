@@ -3,7 +3,8 @@
     import { goto } from "$app/navigation";
     import { sendLoginToken } from "../api/api";
     import ModalDialog from "../components/ModalDialog.svelte";
-    import LoadingSpinner from "../components/LoadingSpinner.svelte";
+    import TextInput from "../components/TextInput.svelte";
+    import LoadingBtn from "../components/LoadingBtn.svelte";
 
     let fields = { email: "" };
     let errors = { email: "" };
@@ -74,32 +75,14 @@
             A small tool that notifies you via email when there is an update for your favorite Docker Hub image.
         </p>
         <div class="my-4">
-            <label class="block text-gray-400 text-sm font-medium  mb-2" for="username">E-Mail</label>
-            <input
-                class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="username"
-                type="email"
+            <TextInput
+                label="E-Mail"
+                bind:onChange={fields.email}
+                error={errors.email}
                 placeholder="example@domain.com"
-                class:border-red-500={errors.email}
-                bind:value={fields.email}
+                type="email"
             />
-            {#if errors.email}
-                <p class="text-red-500 text-xs mt-1.5">{errors.email}</p>
-            {/if}
         </div>
-        <button
-            class="{isLoading
-                ? 'bg-blue-300 cursor-default'
-                : 'bg-blue-500 animate hover:bg-blue-700'} text-white font-medium py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full transition flex items-center justify-center"
-            type="button"
-            on:click={onSubmit}
-        >
-            {#if isLoading}
-                <div class="mr-1">
-                    <LoadingSpinner />
-                </div>
-            {/if}
-            Login
-        </button>
+        <LoadingBtn {isLoading} onClick={onSubmit} title="Login" />
     </div>
 </div>

@@ -1,16 +1,19 @@
 <script lang="ts">
     import { subscribeByToken } from "../api/api";
-    import LoadingSpinner from "./LoadingSpinner.svelte";
+
+    import OfficialImageCheckbox from "./OfficialImageCheckbox.svelte";
+    import TextInput from "./TextInput.svelte";
+    import LoadingBtn from "./LoadingBtn.svelte";
 
     export let onClose: VoidFunction;
     export let token: string;
 
     let isLoading = false;
-    let fields = { organization: "", repository: "" };
+    let fields = { organization: "", repository: "", officalImage: false };
     let errors = { organization: "", repository: "" };
 
     const onSubmit = async () => {
-        if (fields.organization.trim().length == 0) {
+        if (fields.organization.trim().length == 0 && !fields.officalImage) {
             errors.organization = "Owner / Organization is required";
         } else {
             errors.organization = "";
@@ -28,7 +31,11 @@
 
         isLoading = true;
 
-        const result = await subscribeByToken(fields.organization.trim(), fields.repository.trim(), token);
+        const result = await subscribeByToken(
+            fields.officalImage ? "library" : fields.organization.trim(),
+            fields.repository.trim(),
+            token,
+        );
 
         if (result.data == "Repository not found") {
             errors.repository = "Repository could not be found";
@@ -36,7 +43,7 @@
             return;
         }
 
-        fields = { organization: "", repository: "" };
+        fields = { organization: "", repository: "", officalImage: false };
         isLoading = false;
         onClose();
     };
@@ -60,47 +67,27 @@
                 />
             </svg>
         </div>
+        {#if !fields.officalImage}
+            <div class="mb-4">
+                <TextInput
+                    label="Owner / Organization"
+                    bind:onChange={fields.organization}
+                    error={errors.organization}
+                    placeholder="pihole"
+                />
+            </div>
+        {/if}
         <div class="mb-4">
-            <label class="block text-gray-400 text-sm font-medium  mb-2" for="organization">Owner / Organization</label>
-            <input
-                class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="organization"
-                type="text"
+            <TextInput
+                label="Repository"
+                bind:onChange={fields.repository}
+                error={errors.repository}
                 placeholder="pihole"
-                class:border-red-500={errors.organization}
-                bind:value={fields.organization}
             />
-            {#if errors.organization}
-                <p class="text-red-500 text-xs mt-1.5">{errors.organization}</p>
-            {/if}
         </div>
-        <div class="mb-6">
-            <label class="block text-gray-400 text-sm font-medium mb-2" for="repository">Repository</label>
-            <input
-                class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="repository"
-                type="text"
-                placeholder="pihole"
-                class:border-red-500={errors.repository}
-                bind:value={fields.repository}
-            />
-            {#if errors.repository}
-                <p class="text-red-500 text-xs mt-1.5">{errors.repository}</p>
-            {/if}
+        <div class="mb-4">
+            <OfficialImageCheckbox bind:onClick={fields.officalImage} />
         </div>
-        <button
-            class="{isLoading
-                ? 'bg-blue-300 cursor-default'
-                : 'bg-blue-500 animate hover:bg-blue-700'} text-white font-medium py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full transition flex items-center justify-center"
-            type="button"
-            on:click={onSubmit}
-        >
-            {#if isLoading}
-                <div class="mr-1">
-                    <LoadingSpinner />
-                </div>
-            {/if}
-            Subscribe
-        </button>
+        <LoadingBtn {isLoading} onClick={onSubmit} title="Subscribe" />
     </div>
 </div>

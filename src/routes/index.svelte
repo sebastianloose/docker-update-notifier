@@ -2,14 +2,16 @@
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
     import { subscribeByEmail } from "../api/api";
-    import LoadingSpinner from "../components/LoadingSpinner.svelte";
     import ModalDialog from "../components/ModalDialog.svelte";
+    import OfficialImageCheckbox from "../components/OfficialImageCheckbox.svelte";
+    import TextInput from "../components/TextInput.svelte";
+    import LoadingBtn from "../components/LoadingBtn.svelte";
 
     let isLoading = false;
     let showSuccessModalDialog = false;
     let showVerifiedModalDialog = false;
     let showUserExistsDialog = false;
-    let fields = { email: "", organization: "", repository: "" };
+    let fields = { email: "", organization: "", repository: "", officalImage: false };
     let errors = { email: "", organization: "", repository: "" };
 
     onMount(() => {
@@ -27,7 +29,7 @@
             errors.email = "";
         }
 
-        if (fields.organization.trim().length == 0) {
+        if (fields.organization.trim().length == 0 && !fields.officalImage) {
             errors.organization = "Owner / Organization is required";
         } else {
             errors.organization = "";
@@ -46,7 +48,7 @@
         isLoading = true;
 
         const result = await subscribeByEmail(
-            fields.organization.trim(),
+            fields.officalImage ? "library" : fields.organization.trim(),
             fields.repository.trim(),
             fields.email.trim(),
         );
@@ -54,7 +56,7 @@
         isLoading = false;
 
         if (result.status == "success") {
-            fields = { email: "", organization: "", repository: "" };
+            fields = { email: "", organization: "", repository: "", officalImage: false };
             showSuccessModalDialog = true;
         }
 
@@ -109,60 +111,35 @@
             A small tool that notifies you via email when there is an update for your favorite Docker Hub image.
         </p>
         <div class="my-4">
-            <label class="block text-gray-400 text-sm font-medium  mb-2" for="username">E-Mail</label>
-            <input
-                class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="username"
-                type="email"
+            <TextInput
+                label="E-Mail"
+                bind:onChange={fields.email}
+                error={errors.email}
                 placeholder="example@domain.com"
-                class:border-red-500={errors.email}
-                bind:value={fields.email}
+                type="email"
             />
-            {#if errors.email}
-                <p class="text-red-500 text-xs mt-1.5">{errors.email}</p>
-            {/if}
+        </div>
+        {#if !fields.officalImage}
+            <div class="mb-4">
+                <TextInput
+                    label="Owner / Organization"
+                    bind:onChange={fields.organization}
+                    error={errors.organization}
+                    placeholder="pihole"
+                />
+            </div>
+        {/if}
+        <div class="mb-4">
+            <TextInput
+                label="Repository"
+                bind:onChange={fields.repository}
+                error={errors.repository}
+                placeholder="pihole"
+            />
         </div>
         <div class="mb-4">
-            <label class="block text-gray-400 text-sm font-medium  mb-2" for="organization">Owner / Organization</label>
-            <input
-                class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="organization"
-                type="text"
-                placeholder="pihole"
-                class:border-red-500={errors.organization}
-                bind:value={fields.organization}
-            />
-            {#if errors.organization}
-                <p class="text-red-500 text-xs mt-1.5">{errors.organization}</p>
-            {/if}
+            <OfficialImageCheckbox bind:onClick={fields.officalImage} />
         </div>
-        <div class="mb-6">
-            <label class="block text-gray-400 text-sm font-medium mb-2" for="repository">Repository</label>
-            <input
-                class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="repository"
-                type="text"
-                placeholder="pihole"
-                class:border-red-500={errors.repository}
-                bind:value={fields.repository}
-            />
-            {#if errors.repository}
-                <p class="text-red-500 text-xs mt-1.5">{errors.repository}</p>
-            {/if}
-        </div>
-        <button
-            class="{isLoading
-                ? 'bg-blue-300 cursor-default'
-                : 'bg-blue-500 animate hover:bg-blue-700'} text-white font-medium py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full transition flex items-center justify-center"
-            type="button"
-            on:click={onSubmit}
-        >
-            {#if isLoading}
-                <div class="mr-1">
-                    <LoadingSpinner />
-                </div>
-            {/if}
-            Sign Up
-        </button>
+        <LoadingBtn {isLoading} onClick={onSubmit} title="Sign Up" />
     </div>
 </div>
