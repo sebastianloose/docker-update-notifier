@@ -4,6 +4,7 @@
     import { getSubscriptions, setSubscriptionState, deleteSubscription } from "../api/api";
     import AddSubscriptionModalDialog from "../components/AddSubscriptionModalDialog.svelte";
     import type { Subscription } from "src/types/subscriptionType";
+    import GithubLink from "../components/GithubLink.svelte";
 
     let token = "";
     let subscriptions: Subscription[] = [];
@@ -70,6 +71,7 @@
         />
     {/if}
     <div class="w-full h-8">
+        <GithubLink />
         <div
             class="float-right border border-blue-500 rounded-lg text-blue-500 hover:text-white px-5 py-1.5 cursor-pointer hover:bg-blue-500 transition"
             on:click={logOut}

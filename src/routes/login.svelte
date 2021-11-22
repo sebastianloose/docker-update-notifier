@@ -5,6 +5,7 @@
     import ModalDialog from "../components/ModalDialog.svelte";
     import TextInput from "../components/TextInput.svelte";
     import LoadingBtn from "../components/LoadingBtn.svelte";
+    import GithubLink from "../components/GithubLink.svelte";
 
     let fields = { email: "" };
     let errors = { email: "" };
@@ -60,6 +61,7 @@
         />
     {/if}
     <div class="w-full h-8">
+        <GithubLink />
         <div
             class="float-right border border-blue-500 rounded-lg text-blue-500 hover:text-white px-5 py-1.5 cursor-pointer hover:bg-blue-500 transition"
             on:click={() => goto("/docker-update-notifier/")}
